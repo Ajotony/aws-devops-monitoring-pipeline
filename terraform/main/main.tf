@@ -109,3 +109,37 @@ resource "aws_instance" "terraform_server" {
     Name = "terraform-server"
   }
 }
+
+# SNS topic for alert notifications
+resource "aws_sns_topic" "alerts" {
+  name = "monitoring-alerts"
+}
+
+# Email subscription
+resource "aws_sns_topic_subscription" "email_alert" {
+  topic_arn = aws_sns_topic.alerts.arn
+  protocol = "email"
+  endpoint = var.alert_email
+}
+
+# Cloudwatch alarm for EC2 health checks
+resource "aws_cloudwatch_metric_alarm" "ec2_failed_status_check" {
+  alarm_name = "ec2-status-check"
+  comparison_operator = "GreaterThanThreshold"
+  evaluation_periods = 2
+  metric_name = "StatusCheckFailed"
+  namespace = "AWS/EC2"
+  period = 60
+  statistic = "Maximum"
+  threshold = 1
+
+  alarm_description = "EC2 Instance status check failed"
+
+  dimensions = {
+    InstanceId = aws_instance.terraform_server.id
+  }
+
+  alarm_actions = [aws_sns_topic.alerts.arn]
+
+}
+
