@@ -1,0 +1,17 @@
+- name: Configure EC2 Instance
+  hosts: terraform_server
+  become: true
+  gather_facts: false  # disabled initially because instance may not be ready after provisioning
+
+  pre_tasks:
+    - name: Wait for SSH to be ready  # ensures EC2 is reachable before running roles
+      wait_for_connection:
+        delay: 10
+        timeout: 120
+
+    - name: Gather facts
+      setup:
+
+  roles:
+    - docker
+    - monitoring
