@@ -59,7 +59,7 @@ jobs:
         run: echo "EC2_IP=$(terraform output -raw server_ip)" >> $GITHUB_ENV
         
       - name: Inject EC2 IP into inventory
-        run: sed -i "s/SERVER_IP/$EC2_IP/" ../ansible/inventory
+        run: sed -i "s/SERVER_IP/$EC2_IP/" ../../ansible/inventory.ini
       - name: Setup SSH Key
         run: |
           mkdir -p ~/.ssh
