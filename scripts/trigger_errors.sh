@@ -1,6 +1,6 @@
 #!/bin/bash
 
-URL="http://localhost:8000"
+URL="http://<EC2_IP>:8000"
 
 echo "Triggering errors..."
 
