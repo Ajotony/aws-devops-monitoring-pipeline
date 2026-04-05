@@ -73,7 +73,7 @@ resource "aws_security_group" "firewall" {
 
 # SSH key pair (public key injected via variable)
 resource "aws_key_pair" "ssh_key" {
-  key_name = var.key_name
+  key_name = "infra-pub-key"
   public_key = var.public_key
 }
 
