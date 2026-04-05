@@ -1,0 +1,67 @@
+name: Deploy Infrastructure
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: terraform-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  deploy-infra:
+    runs-on: ubuntu-latest
+
+    env:
+      TF_VAR_aws_region: ${{ secrets.AWS_REGION }}
+      TF_VAR_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
+
+
+    defaults:
+      run:
+        working-directory: infra
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with: 
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}          
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        run: terraform plan -lock-timeout=180s
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -lock-timeout=180s
+
+      - name: Get EC2 IP.
+        run: echo "EC2_IP=$(terraform output -raw server_ip)" >> $GITHUB_ENV
+        
+      - name: Inject EC2 IP into inventory
+        run: sed -i "s/SERVER_IP/$EC2_IP/" ../ansible/inventory
+      - name: Setup SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+          echo "Host *" > ~/.ssh/config
+          echo "StrictHostKeyChecking no" >> ~/.ssh/config
+          
+      - name: Run Ansible Playbook
+        run: ansible-playbook -i ../ansible/inventory ../ansible/playbook.yml
