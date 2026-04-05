@@ -98,11 +98,13 @@ This project follows a two-stage infrastructure setup (**bootstrap → main**) a
 ```bash
 git clone https://github.com/Ajotony/aws-devops-monitoring-pipeline.git
 cd aws-devops-monitoring-pipeline
+```
 
 ### 2. Generate SSH Key Pair
 
 ```bash
 ssh-keygen -t rsa -b 4096 -f infra_key
+```
 
 This creates:
 * infra_key (private key)
@@ -127,6 +129,7 @@ Add the following secrets in your repository:
 cd bootstrap
 terraform init
 terraform apply -auto-approve
+```
 
 This creates:
 
@@ -170,12 +173,14 @@ Generate traffic:
 
 ```bash
 ./scripts/traffic.sh <EC2-IP>
+```
 
 Simulate failure:
 
 ```bash
 ssh -i infra_key ubuntu@<EC2-IP>
 docker stop flask-app
+```
 
 Expected results:
 
@@ -189,6 +194,6 @@ Expected results:
 ```bash
 cd terraform
 terraform destroy
-
+```
 
 
