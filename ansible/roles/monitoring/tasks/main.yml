@@ -1,0 +1,29 @@
+- name: Create monitoring directory
+  file:
+    path: /home/ubuntu/monitoring
+    state: directory
+
+- name: Copy docker compose file
+  copy:
+    src: docker-compose.yml
+    dest: /home/ubuntu/monitoring/docker-compose.yml
+
+- name: Copy prometheus config
+  copy:
+    src: prometheus.yml
+    dest: /home/ubuntu/monitoring/prometheus.yml
+
+- name: Copy Alertmanager config
+  template:
+    src: alertmanager.yml.j2
+    dest: /home/ubuntu/monitoring/alertmanager.yml
+
+- name: Copy Alerts config
+  copy:
+    src: alerts.yml
+    dest: /home/ubuntu/monitoring/alerts.yml
+
+- name: Start monitoring stack
+  command: docker-compose up -d
+  args:
+    chdir: /home/ubuntu/monitoring
