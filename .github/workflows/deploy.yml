@@ -17,6 +17,10 @@ jobs:
     env:
       TF_VAR_aws_region: ${{ secrets.AWS_REGION }}
       TF_VAR_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
+      TF_VAR_alert_email: ${{ secrets.ALERT_EMAIL }}
+
+      SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
+      SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
 
 
     defaults:
