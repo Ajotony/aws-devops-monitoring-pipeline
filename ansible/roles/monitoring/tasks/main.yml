@@ -13,6 +13,7 @@
     src: prometheus.yml
     dest: /home/ubuntu/monitoring/prometheus.yml
 
+# Deploy alertmanager configuration using template to inject dynamic SMTP credentials"
 - name: Copy Alertmanager config
   template:
     src: alertmanager.yml.j2

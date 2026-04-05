@@ -6,6 +6,7 @@ on:
     branches:
       - main
 
+# Ensure only one terraform run at a time to prevent state lock conflicts
 concurrency:
   group: terraform-${{ github.ref_name }}
   cancel-in-progress: true
@@ -49,6 +50,7 @@ jobs:
 
       - name: Terraform Plan
         run: terraform plan -lock-timeout=180s
+        # Fail fast if step exceeds expected duration
         timeout-minutes: 3
 
       - name: Terraform Apply

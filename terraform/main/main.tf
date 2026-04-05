@@ -2,8 +2,8 @@
 resource "aws_security_group" "firewall" {
   name_prefix = "firewall-config-"
 
-  # SSH access is open to any IP for lab/testing
-  # it should be restricted to a trusted IP range.
+  # Open ports required for monitoring stack and application access
+  # N.B: 0.0.0.0/0 is used for testing purposes and should be restricted in production
   ingress { 
   description = "Allow SSH access"
   from_port = 22
@@ -110,19 +110,20 @@ resource "aws_instance" "terraform_server" {
   }
 }
 
-# SNS topic for alert notifications
+# SNS topic used to send infrastructure alerts via email
 resource "aws_sns_topic" "alerts" {
   name = "monitoring-alerts"
 }
 
-# Email subscription
+
 resource "aws_sns_topic_subscription" "email_alert" {
   topic_arn = aws_sns_topic.alerts.arn
   protocol = "email"
   endpoint = var.alert_email
 }
 
-# Cloudwatch alarm for EC2 health checks
+# Triggers alert when EC2 instance fails status checks
+# Used for infrastructure level monitoring (seperate from application alerts)
 resource "aws_cloudwatch_metric_alarm" "ec2_failed_status_check" {
   alarm_name = "ec2-status-check"
   comparison_operator = "GreaterThanThreshold"

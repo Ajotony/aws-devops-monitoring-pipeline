@@ -120,7 +120,7 @@ Add the following secrets in your repository:
 * AWS_SECRET_ACCESS_KEY
 * AWS_REGION
 * SSH_PUBLIC_KEY → contents of infra_key.pub
-* EC2_SSH_KEY → contents of infra_key
+* EC2_PRIVATE_KEY → contents of infra_key
 * SMTP_USERNAME
 * SMTP_PASSWORD
 * ALERT_EMAIL
@@ -164,17 +164,17 @@ The pipeline will:
 
 Use the EC2 public IP:
 
-* Flask App → http://<EC2-IP>:8000
-* Prometheus → http://<EC2-IP>:9090
-* Grafana → http://<EC2-IP>:3000
-* Alertmanager → http://<EC2-IP>:9093
+* Flask App → http://EC2-IP:8000
+* Prometheus → http://EC2-IP:9090
+* Grafana → http://EC2-IP:3000
+* Alertmanager → http://EC2-IP:9093
 
 ### 8. Validate Monitoring & Alerts
 
 Generate traffic:
 
 ```bash
-./scripts/traffic.sh <EC2-IP>
+./scripts/traffic.sh
 ```
 
 Simulate failure:

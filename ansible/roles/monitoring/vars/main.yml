@@ -1,3 +1,4 @@
+#loa sensitive values from environment variables passed via CI/CD
 smtp_username: "{{ lookup('env','SMTP_USERNAME') }}"
 smtp_password: "{{ lookup('env','SMTP_PASSWORD') }}"
 alert_email: "{{ lookup('env','ALERT_EMAIL') }}"
