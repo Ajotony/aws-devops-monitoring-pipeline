@@ -79,15 +79,17 @@ The GitHub Actions pipeline automates:
 
 ## Screenshots
 
-### Grafana Dashboard
-![Grafana Dashboard](docs/images/grafana-dashboard.png)
+### Prometheus Alert (High Disk Usage)
+![Prometheus Alert](docs/images/prometheus-alert.png)
 
-### Alert Notification
-![Alert Email](docs/images/alert-email.png)
+### Grafana Node Exporter Dashboard
+![Grafana Node Dashboard](docs/images/grafana-node.png)
 
-### CI/CD Pipeline
-![GitHub Actions](docs/images/github-actions.png)
+### Flask App Monitoring Dashboard
+![Flask Monitoring](docs/images/grafana-flask.png)
 
+### Prometheus Target Health
+![Prometheus Targets](docs/images/prometheus-targets.png)
 
 ## How to Run
 
