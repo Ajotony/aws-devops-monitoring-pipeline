@@ -8,7 +8,7 @@ on:
 
 concurrency:
   group: terraform-${{ github.ref_name }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   deploy-infra:
@@ -49,9 +49,11 @@ jobs:
 
       - name: Terraform Plan
         run: terraform plan -lock-timeout=180s
+        timeout-minutes: 3
 
       - name: Terraform Apply
         run: terraform apply -auto-approve -lock-timeout=180s
+        timeout-minutes: 10
 
       - name: Get EC2 IP.
         run: echo "EC2_IP=$(terraform output -raw server_ip)" >> $GITHUB_ENV
@@ -67,5 +69,5 @@ jobs:
           echo "Host *" > ~/.ssh/config
           echo "StrictHostKeyChecking no" >> ~/.ssh/config
           
-      - name: Run Ansible Playbook
-        run: ansible-playbook -i ../../ansible/inventory.ini ../../ansible/playbook.yml
+      - name: Run Ansible Playbook run: ansible-playbook -i
+        ../../ansible/inventory.ini ../../ansible/playbook.yml
