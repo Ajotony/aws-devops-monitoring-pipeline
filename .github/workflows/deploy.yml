@@ -69,5 +69,5 @@ jobs:
           echo "Host *" > ~/.ssh/config
           echo "StrictHostKeyChecking no" >> ~/.ssh/config
           
-      - name: Run Ansible Playbook run: ansible-playbook -i
-        ../../ansible/inventory.ini ../../ansible/playbook.yml
+      - name: Run Ansible Playbook 
+        run: ansible-playbook -i ../../ansible/inventory.ini ../../ansible/playbook.yml
