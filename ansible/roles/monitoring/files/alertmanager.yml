@@ -1,0 +1,12 @@
+route:
+  receiver: email-alert
+
+receivers:
+- name: email-alert
+  email_configs:
+    - to: "{{ alert_email }}"
+      from: "{{ alert_email }}"
+      smarthost: smtp.gmail.com:587
+      auth_username: "{{ smtp_username }}"
+      auth_password: "{{ smtp_password }}"
+  

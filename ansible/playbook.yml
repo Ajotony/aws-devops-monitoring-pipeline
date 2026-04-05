@@ -3,6 +3,11 @@
   become: true
   gather_facts: false  # disabled initially because instance may not be ready after provisioning
 
+  vars: 
+  smtp_username: "{{ lookup('env','SMTP_USERNAME') }}"
+  smtp_password: "{{ lookup('env','SMTP_PASSWORD') }}"
+  alert_email: "{{ lookup('env','TF_VAR_alert_email') }}" 
+
   pre_tasks:
     - name: Wait for SSH to be ready  # ensures EC2 is reachable before running roles
       wait_for_connection:
