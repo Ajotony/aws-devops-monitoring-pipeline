@@ -1,0 +1,10 @@
+#!/bin/bash
+
+SERVER_IP=$1
+
+echo "Generating errors..."
+
+while true; do
+  curl -s http://$SERVER_IP:8000
+  sleep 0.1
+done
