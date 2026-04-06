@@ -5,16 +5,26 @@ This project implements a **production-style DevOps monitoring pipeline**, desig
 
 The focus was not just on deploying tools, but on ensuring the system is **observable, reliable, and properly tested under stress**.
 
-## Architecture
+## Architecture Overview
 
-- Terraform → Infrastructure provisioning (EC2, Security Groups, CloudWatch, SNS)  
-- Ansible (Roles-based) → Server configuration and deployment  
-- Docker → Containerized services  
-- Prometheus → Metrics collection  
-- Grafana → Visualization dashboards  
-- Alertmanager → Application-level alerting  
-- AWS CloudWatch + SNS → Infrastructure-level alerting  
-- GitHub Actions → CI/CD pipeline automation  
+This project implements an end-to-end DevOps monitoring pipeline on AWS.
+
+### Key Components:
+- **Terraform** → Provision AWS infrastructure (EC2, Security Groups)
+- **Ansible** → Configure server and deploy Docker containers
+- **Prometheus** → Collect application and system metrics
+- **Alertmanager** → Handle alert routing
+- **Grafana** → Visualize metrics
+- **AWS CloudWatch + SNS** → Infrastructure-level monitoring and alerts
+
+### Monitoring Flow:
+1. Prometheus scrapes metrics from Node Exporter and Flask app
+2. Alerts are triggered based on defined rules
+3. Alertmanager routes alerts to email notifications
+4. CloudWatch monitors AWS infrastructure and sends alerts via SNS
+
+![Architecture Diagram](architecture-diagram.png)
+
 
 ## Key Features
 

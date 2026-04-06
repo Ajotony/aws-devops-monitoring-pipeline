@@ -3,3 +3,9 @@ terraform/main/*.tfvars
 .terraform/
 *.tfstate
 *.tfstate.*
+.terraform.lock.hcl
+
+*.pem
+*.key
+.env
+.swp
