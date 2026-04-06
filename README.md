@@ -23,7 +23,7 @@ This project implements an end-to-end DevOps monitoring pipeline on AWS.
 3. Alertmanager routes alerts to email notifications
 4. CloudWatch monitors AWS infrastructure and sends alerts via SNS
 
-![Architecture Diagram](architecture-diagram.png)
+![Architecture Diagram](docs/images/architecture-diagram.png)
 
 
 ## Key Features
